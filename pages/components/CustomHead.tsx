@@ -19,7 +19,7 @@ const CustomHead = ({
   image,
   domain,
   url,
-}: Props): JSX.Element => {
+}: Props): React.JSX.Element => {
   return (
     <>
       <Head>

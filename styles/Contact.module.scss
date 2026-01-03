@@ -11,9 +11,14 @@
   div {
     display: flex;
     flex-direction: row;
+    background-color: #f7e9ba;
+    color: black;
+    border-width: 1px;
+    padding: 1px;
     p {
       display: block;
       text-align: left;
+      font-size: 13px;
     }
     img {
       display: none;

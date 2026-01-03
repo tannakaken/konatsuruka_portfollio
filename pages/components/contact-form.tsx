@@ -1,9 +1,9 @@
 import * as React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import commonStyles from "../../styles/Common.module.scss";
 import styles from "../../styles/Contact.module.scss";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from 'react-tooltip'
 
 type RequestType = "MV" | "TV" | "Illustration" | "Manga" | "Other";
 type Detail =
@@ -21,7 +21,6 @@ const ContactForm = () => {
   const [body, setBody] = useState("");
   const [sending, setSending] = useState(false);
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const tooltipRef = useRef<HTMLImageElement>(null);
   const [isMounted, setIsMounted] = useState(false);
   React.useEffect(() => {
     setIsMounted(true);
@@ -37,6 +36,27 @@ const ContactForm = () => {
     },
     [details]
   );
+  const [tooltipIsOpen, setTooltipisOpen] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      if (event.target instanceof HTMLLabelElement || event.target instanceof HTMLTextAreaElement) {
+        event.stopPropagation();
+        return;
+      }
+      setTooltipisOpen((isOpen) => {
+        if (clicked) {
+          setClicked(false);
+          return false;
+        }
+        return isOpen;
+      })
+    }
+    document.addEventListener("click", onClick);
+    () => {
+      document.removeEventListener("click", onClick);
+    }
+  }, [clicked])
   return (
     <section id="contact-section" className={styles.contactSection}>
       <hr style={{ width: "90%" }} />
@@ -44,27 +64,36 @@ const ContactForm = () => {
       <div className={styles.contactForm}>
         <div className={styles.information}>
           <img
-            ref={tooltipRef}
             src={"information.webp"}
             alt={"用途、予算、納品希望日、詳細……等をご入力ください。"}
             width={"20px"}
             height={"20px"}
-            data-tip={
-              "<div><div><p>・用途<br />・予算<br />・納品希望日<br />・詳細…等を<br />ご入力ください。</p></div><div><img src='contact.webp' alt='お気楽にご相談ください。' /></div></div>"
-            }
+            // data-tip={
+            //   "<div><div><p>・用途<br />・予算<br />・納品希望日<br />・詳細…等を<br />ご入力ください。</p></div><div><img src='contact.webp' alt='お気楽にご相談ください。' /></div></div>"
+            // }
+            data-tooltip-place="left"
+            data-tooltip-id="my-tooltip"
           />
           {isMounted && (
-            <ReactTooltip
-              border={true}
-              borderColor={"black"}
+            <Tooltip
+              isOpen={tooltipIsOpen}
+              setIsOpen={setTooltipisOpen}
+              id="my-tooltip"
+              border={"1px solid black"}
               className={styles.tooltip}
-              effect={"solid"}
+              // react-tooltip v5ではデフォルトがv4以前のeffect="solid"になった。
               clickable={true}
               place={"left"}
-              html={true}
-              backgroundColor={"#f7e9ba"}
-              textColor={"black"}
-            />
+              // backgroundColor={"#f7e9ba"}
+              // textColor={"black"}
+            >
+              <div>
+                <div>
+                  <p>・用途<br />・予算<br />・納品希望日<br />・詳細…等を<br />ご入力ください。</p>
+                </div>
+              <div>
+              <img src='contact.webp' alt='お気楽にご相談ください。' /></div></div>
+            </Tooltip>
           )}
         </div>
         <div className={styles.contactMain}>
@@ -259,8 +288,9 @@ const ContactForm = () => {
             <label
               htmlFor={"body"}
               onClick={() => {
-                if (tooltipRef.current) {
-                  ReactTooltip.show(tooltipRef.current);
+                if (!tooltipIsOpen) {
+                  setTooltipisOpen(true);
+                  setClicked(true);
                 }
               }}
             >
