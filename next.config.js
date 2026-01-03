@@ -1,7 +1,18 @@
+const { hostname } = require("os");
+
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["images.microcms-assets.io", "img.youtube.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.microcms-assets.io",
+      },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+      }
+    ],
   },
   exportPathMap: async function (
     defaultPathMap,

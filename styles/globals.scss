@@ -23,3 +23,8 @@ a {
   0%{ transform:rotate(0);}
   100%{ transform:rotate(360deg); }
 }
+
+.react-tooltip {
+  background-color: #f7e9ba !important;
+  padding: 8px 21px;
+}
