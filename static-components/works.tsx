@@ -197,8 +197,8 @@ const WorksSection = ({
             <YouTube
               opts={youtubeOption}
               loading="lazy"
-              className={youTubeStyles.iframe}
-              containerClassName={youTubeStyles.youtube}
+              iframeClassName={youTubeStyles.iframe}
+              className={youTubeStyles.youtube}
               videoId={selectedWork?.youtubeId}
             />
           ))}
