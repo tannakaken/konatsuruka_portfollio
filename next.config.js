@@ -2,6 +2,7 @@ const { hostname } = require("os");
 
 module.exports = {
   reactStrictMode: true,
+  output: "export",
   images: {
     remotePatterns: [
       {
@@ -13,13 +14,5 @@ module.exports = {
         hostname: "img.youtube.com",
       }
     ],
-  },
-  exportPathMap: async function (
-    defaultPathMap,
-    { dev, dir, outDir, distDir, buildId }
-  ) {
-    return {
-      "/": { page: "/" },
-    };
   },
 };
