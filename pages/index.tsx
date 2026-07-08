@@ -206,7 +206,7 @@ const Home = ({
         keyword={"アニメ,animation,MV,イラスト,illustration,マンガ,manga"}
         domain={"www.konatsuruka.online"}
         url={"https://www.konatsuruka.online"}
-        image={"https:///www.konatsuruka.online/header2.webp"}
+        image={"https:///www.konatsuruka.online/header.webp"}
       />
       {/* 固定のヘッダナビゲータ */}
       <Header />
