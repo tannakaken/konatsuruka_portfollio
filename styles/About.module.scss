@@ -1,11 +1,12 @@
-@import "./Common.module.scss";
+@forward "./Common.module.scss";
 
 #aboutContainer {
+
+  width: 100%;
+  display: flex;
   @media (max-width: 1024px) {
     display: none;
   }
-  width: 100%;
-  display: flex;
   flex-direction: row;
   background: white;
   .iconContainer {
