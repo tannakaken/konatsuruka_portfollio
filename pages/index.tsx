@@ -42,8 +42,8 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (_) => {
     apiKey: process.env.NEXT_PUBLIC_MICRO_CMS_API_KEY || "",
   });
   const allWorks = (
-    await client.get<{ contents: Work[] }>({ endpoint: "works?limit=100" })
-  ).contents;
+    await client.getAllContents<Work>({ endpoint: "works" })
+  );
   const worksWithVideo = allWorks.filter(
     (work) =>
       (work.youtubeId !== undefined && work.youtubeId.length > 0) ||
@@ -73,8 +73,8 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (_) => {
   );
   worksWithoutVideo.sort(sortWork);
   const newsContents = (
-    await client.get<{ contents: News[] }>({ endpoint: "news?limit=100" })
-  ).contents;
+    await client.getAllContents<News>({ endpoint: "news" })
+  );
   const profile = String(
     await unified()
       .use(remarkParse)
@@ -84,10 +84,10 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (_) => {
 
   const news = newsContents.slice(0, newsContents.length - 1);
   const allMyWorks = (
-    await client.get<{ contents: MyWork[] }>({
-      endpoint: "myworks?limit=100",
+    await client.getAllContents<MyWork>({
+      endpoint: "myworks",
     })
-  ).contents;
+  );
   const myYoutubes = allMyWorks.filter((item) => item.youtubeId);
   const myMovies = allMyWorks.filter((item) => item.videoPath);
   const illustrations = allMyWorks.filter(
